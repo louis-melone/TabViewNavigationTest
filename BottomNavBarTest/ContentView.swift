@@ -24,6 +24,7 @@ struct ContentView: View {
                     }
             }
             .navigationDestination(for: EnglishDestination.self) { $0 }
+            .navigationTitle("Tab View")
         }
     }
 
