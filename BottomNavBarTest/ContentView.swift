@@ -12,31 +12,31 @@ struct ContentView: View {
     @State var hideTabBar: Bool = false
 
     var body: some View {
-        TabView {
-            navigationStack
-                .tabItem {
-                    Text("Eng")
-                }
-            placeholderStack
-                .tabItem {
-                    Text("Span")
-                }
+        NavigationStack(path: $coordinator.path) {
+            TabView {
+                navigationStack
+                    .tabItem {
+                        Text("Eng")
+                    }
+                placeholderStack
+                    .tabItem {
+                        Text("Span")
+                    }
+            }
+            .navigationDestination(for: EnglishDestination.self) { $0 }
         }
     }
 
     var navigationStack: some View {
-        NavigationStack(path: $coordinator.path) {
-            coordinator.initialDestination
-                .navigationDestination(for: EnglishDestination.self) { $0 }
-                .onTapGesture {
-                    hideTabBar = true
-                    coordinator.path.append(.londonView)
-                }
-                .onAppear {
-                    hideTabBar = false
-                }
-                .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
-        }
+        coordinator.initialDestination
+            .onTapGesture {
+                hideTabBar = true
+                coordinator.path.append(.londonView)
+            }
+            .onAppear {
+                hideTabBar = false
+            }
+            .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
     }
     
     var placeholderStack: some View {
