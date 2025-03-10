@@ -16,5 +16,6 @@ struct EnglishView: View {
             Text("Hello, world")
         }
         .padding()
+        .navigationTitle("English View")
     }
 }
