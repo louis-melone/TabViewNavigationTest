@@ -12,7 +12,7 @@ struct ContentView: View {
     @State var hideTabBar: Bool = false
 
     var body: some View {
-        NavigationStack(path: $coordinator.path) {
+        NavigationStack {
             TabView {
                 navigationStack
                     .tabItem {
@@ -23,21 +23,17 @@ struct ContentView: View {
                         Text("Span")
                     }
             }
-            .navigationDestination(for: EnglishDestination.self) { $0 }
-            .navigationTitle("Tab View")
         }
     }
 
     var navigationStack: some View {
-        coordinator.initialDestination
-            .onTapGesture {
-                hideTabBar = true
-                coordinator.path.append(.londonView)
-            }
-            .onAppear {
-                hideTabBar = false
-            }
-            .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
+        NavigationStack(path: $coordinator.path) {
+            coordinator.initialDestination
+                .onTapGesture {
+                    coordinator.path.append(.londonView)
+                }
+                .navigationDestination(for: EnglishDestination.self) { $0 }
+        }
     }
     
     var placeholderStack: some View {
@@ -49,8 +45,4 @@ struct ContentView: View {
         }
         .padding()
     }
-}
-
-#Preview {
-    ContentView()
 }
