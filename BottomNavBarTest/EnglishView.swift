@@ -17,5 +17,10 @@ struct EnglishView: View {
         }
         .padding()
         .navigationTitle("English View")
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Text("English")
+            }
+        }
     }
 }
