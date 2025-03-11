@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var coordinator: EnglishCoordinator = EnglishCoordinator()
-    @State var hideTabBar: Bool = false
 
     var body: some View {
         TabView {
@@ -29,16 +28,15 @@ struct ContentView: View {
             coordinator.initialDestination
                 .navigationDestination(for: EnglishDestination.self) { $0 }
                 .onTapGesture {
-                    hideTabBar = true
+                    UITabBar.changeTabBarState(shouldHide: true)
                     coordinator.path.append(.londonView)
                 }
                 .onAppear {
-                    hideTabBar = false
+                    UITabBar.changeTabBarState(shouldHide: false)
                 }
-                .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
         }
     }
-    
+
     var placeholderStack: some View {
         VStack {
             Image(systemName: "globe")
@@ -50,6 +48,38 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
+// https://stackoverflow.com/questions/75450229/problem-when-trying-to-hide-tab-bar-swiftui
+
+extension UIView {
+    func allSubviews() -> [UIView] {
+        var allSubviews = subviews
+        for subview in subviews {
+            allSubviews.append(contentsOf: subview.allSubviews())
+        }
+        return allSubviews
+    }
+}
+
+extension UITabBar {
+    private static var originalY: Double?
+    
+    public static func changeTabBarState(shouldHide: Bool) {
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        windowScene?.windows.first(where: { $0.isKeyWindow })?.allSubviews().forEach({ view in
+            if let tabBar = view as? UITabBar {
+                if !tabBar.isHidden && shouldHide {
+                    originalY = (tabBar.superview?.frame.origin.y)!
+                    tabBar.superview?.frame.origin.y = (tabBar.superview?.frame.origin.y)! + 4.5
+                } else if tabBar.isHidden && !shouldHide {
+                    guard let originalY else {
+                        return
+                    }
+                    tabBar.superview?.frame.origin.y = originalY
+                }
+                tabBar.isHidden = shouldHide
+                tabBar.superview?.setNeedsLayout()
+                tabBar.superview?.layoutIfNeeded()
+            }
+        })
+    }
 }
