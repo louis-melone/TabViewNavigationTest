@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BD8257842D80C7A000878E5A /* TabBar in Frameworks */ = {isa = PBXBuildFile; productRef = BD8257832D80C7A000878E5A /* TabBar */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		BD00AD1B2D762DF80091FD50 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD8257842D80C7A000878E5A /* TabBar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 				BD00AD0B2D762DF80091FD50 /* BottomNavBarTest */,
 				BD00AD1D2D762DF80091FD50 /* BottomNavBarTestTests */,
 				BD00AD272D762DF80091FD50 /* BottomNavBarTestUITests */,
+				BD8257822D80C7A000878E5A /* Frameworks */,
 				BD00AD0A2D762DF80091FD50 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +96,13 @@
 				BD00AD242D762DF80091FD50 /* BottomNavBarTestUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BD8257822D80C7A000878E5A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +125,7 @@
 			);
 			name = BottomNavBarTest;
 			packageProductDependencies = (
+				BD8257832D80C7A000878E5A /* TabBar */,
 			);
 			productName = BottomNavBarTest;
 			productReference = BD00AD092D762DF80091FD50 /* BottomNavBarTest.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = BD00AD002D762DF80091FD50;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BD582A052D80C699003BD7AE /* XCRemoteSwiftPackageReference "TabBar" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BD00AD0A2D762DF80091FD50 /* Products */;
 			projectDirPath = "";
@@ -591,6 +608,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD582A052D80C699003BD7AE /* XCRemoteSwiftPackageReference "TabBar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onl1ner/TabBar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD8257832D80C7A000878E5A /* TabBar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD582A052D80C699003BD7AE /* XCRemoteSwiftPackageReference "TabBar" */;
+			productName = TabBar;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BD00AD012D762DF80091FD50 /* Project object */;
 }

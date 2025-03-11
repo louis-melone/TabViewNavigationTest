@@ -6,21 +6,19 @@
 //
 
 import SwiftUI
+import TabBar
 
 struct ContentView: View {
     @StateObject var coordinator: EnglishCoordinator = EnglishCoordinator()
-    @State var hideTabBar: Bool = false
+    @State var visibility: TabBarVisibility = .visible
+    @State private var selection: Item = .eng
 
     var body: some View {
-        TabView {
+        TabBar(selection: $selection, visibility: $visibility) {
             navigationStack
-                .tabItem {
-                    Text("Eng")
-                }
+                .tabItem(for: Item.eng)
             placeholderStack
-                .tabItem {
-                    Text("Span")
-                }
+                .tabItem(for: Item.span)
         }
     }
 
@@ -29,13 +27,12 @@ struct ContentView: View {
             coordinator.initialDestination
                 .navigationDestination(for: EnglishDestination.self) { $0 }
                 .onTapGesture {
-                    hideTabBar = true
+                    visibility = .invisible
                     coordinator.path.append(.londonView)
                 }
                 .onAppear {
-                    hideTabBar = false
+                    visibility = .visible
                 }
-                .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
         }
     }
     
