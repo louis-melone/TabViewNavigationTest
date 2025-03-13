@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    struct ContentView: View {
-        var body: some View {
-            TabBarControllerWrapper()
-                .edgesIgnoringSafeArea(.all)
-        }
+    var body: some View {
+        TabBarControllerWrapper()
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -40,7 +38,7 @@ class ViewController: UIViewController {
     
     @objc func pushOverTabBar() {
         let newViewController = FullScreenViewController()
-        // Desired Functionality in SwiftUI
+        // MARK: Desired Functionality in SwiftUI
         newViewController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(newViewController, animated: true)
     }
