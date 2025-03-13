@@ -8,48 +8,109 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var coordinator: EnglishCoordinator = EnglishCoordinator()
-    @State var hideTabBar: Bool = false
-
-    var body: some View {
-        TabView {
-            navigationStack
-                .tabItem {
-                    Text("Eng")
-                }
-            placeholderStack
-                .tabItem {
-                    Text("Span")
-                }
+    struct ContentView: View {
+        var body: some View {
+            TabBarControllerWrapper()
+                .edgesIgnoringSafeArea(.all)
         }
     }
+}
 
-    var navigationStack: some View {
-        NavigationStack(path: $coordinator.path) {
-            coordinator.initialDestination
-                .navigationDestination(for: EnglishDestination.self) { $0 }
-                .onTapGesture {
-                    hideTabBar = true
-                    coordinator.path.append(.londonView)
-                }
-                .onAppear {
-                    hideTabBar = false
-                }
-                .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
-        }
+struct TabBarControllerWrapper: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UITabBarController {
+        return TabBarController()
     }
     
-    var placeholderStack: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hola, mundo")
-        }
-        .padding()
+    func updateUIViewController(_ uiViewController: UITabBarController, context: Context) {}
+}
+
+class ViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        title = "Home"
+        
+        let button = UIButton(type: .system)
+        button.setTitle("Push Over Tab Bar", for: .normal)
+        button.addTarget(self, action: #selector(pushOverTabBar), for: .touchUpInside)
+        
+        button.frame = CGRect(x: 50, y: 200, width: 300, height: 50)
+        view.addSubview(button)
+    }
+    
+    @objc func pushOverTabBar() {
+        let newViewController = FullScreenViewController()
+        // Desired Functionality in SwiftUI
+        newViewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(newViewController, animated: true)
     }
 }
 
-#Preview {
-    ContentView()
+class FullScreenViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .red
+        
+        let closeButton = UIButton(type: .system)
+        closeButton.setTitle("Go Back", for: .normal)
+        closeButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        closeButton.frame = CGRect(x: 50, y: 200, width: 300, height: 50)
+        view.addSubview(closeButton)
+    }
+    
+    @objc func goBack() {
+        navigationController?.popViewController(animated: true)
+    }
 }
+
+class NavigationViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        title = "Navigation"
+        
+        let button = UIButton(type: .system)
+        button.setTitle("Push With Tab Bar", for: .normal)
+        button.addTarget(self, action: #selector(pushWithTabBar), for: .touchUpInside)
+        
+        button.frame = CGRect(x: 50, y: 200, width: 300, height: 50)
+        view.addSubview(button)
+    }
+    
+    @objc func pushWithTabBar() {
+        let newViewController = NormalPushViewController()
+        navigationController?.pushViewController(newViewController, animated: true)
+    }
+}
+
+class NormalPushViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .green
+        
+        let closeButton = UIButton(type: .system)
+        closeButton.setTitle("Go Back", for: .normal)
+        closeButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        closeButton.frame = CGRect(x: 50, y: 200, width: 300, height: 50)
+        view.addSubview(closeButton)
+    }
+    
+    @objc func goBack() {
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+class TabBarController: UITabBarController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let homeVC = UINavigationController(rootViewController: ViewController())
+        homeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
+        
+        let navigationVC = UINavigationController(rootViewController: NavigationViewController())
+        navigationVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
+        
+        viewControllers = [homeVC, navigationVC]
+    }
+}
+
