@@ -22,7 +22,7 @@ struct TabBarControllerWrapper: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UITabBarController, context: Context) {}
 }
 
-class ViewController: UIViewController {
+class TabOneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -61,7 +61,7 @@ class FullScreenViewController: UIViewController {
     }
 }
 
-class NavigationViewController: UIViewController {
+class TabTwoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -102,10 +102,10 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let homeVC = UINavigationController(rootViewController: ViewController())
+        let homeVC = UINavigationController(rootViewController: TabOneViewController())
         homeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
         
-        let navigationVC = UINavigationController(rootViewController: NavigationViewController())
+        let navigationVC = UINavigationController(rootViewController: TabTwoViewController())
         navigationVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
         
         viewControllers = [homeVC, navigationVC]
